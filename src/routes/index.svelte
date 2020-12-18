@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 	import { onMount } from "svelte";
 	let cvs;
+	let ctx;
 	onMount(() => {
-		const ctx = cvs.getContext("2d");
-		let size = window.innerWidth;
+		ctx = cvs.getContext("2d");
+		let size = 23*300; //23inch in 300dpi => print size for pillow
 		let dpr = window.devicePixelRatio;
 		cvs.width = size * dpr;
 		cvs.height = size * dpr;
@@ -40,8 +41,8 @@
 			ctx.closePath();
 			let gray = Math.floor(Math.random() * 16).toString(16);
 			ctx.fillStyle = "#" + gray + gray + gray;
-			ctx.fill();
 			ctx.stroke();
+			ctx.fill();
 		}
 
 		for (let y = 0; y < lines.length - 1; y++) {
@@ -56,6 +57,14 @@
 			}
 		}
 	});
+	function download() {
+		console.log("download");
+		const durl = cvs.toDataURL();
+		const a = document.createElement("a");
+		a.href = durl;
+		a.setAttribute("download", 'SketchDownload');
+		a.click();
+	}
 </script>
 
 <style>
@@ -66,14 +75,19 @@
 		justify-content: center;
 		align-items: center;
 	}
-	/* canvas {
-		width: 400px;
-		height: 400px;
-	} */
+	canvas {
+		width: 800px;
+		height: 800px;
+	}
+	.download-btn {
+		position: absolute;
+	}
 </style>
 
 <svelte:head>
 	<title>UniquePieces</title>
 </svelte:head>
 
-<div class="board"><canvas bind:this={cvs} /></div>
+<button class="download-btn" on:click={download}>download</button>
+<div class="board"><canvas id="drawing" bind:this={cvs} /></div>
+
