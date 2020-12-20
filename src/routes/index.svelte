@@ -1,10 +1,16 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import SettingsPanel from "../components/SettingsPanel.svelte";
+	import SketchesPanel from "../components/SketchesPanel.svelte";
+import { Sketch } from "./sketch";
+	let sketches = [
+		new Sketch({ name: "test", settings: { spacing: 10 }, drawFunction: "" }),
+	];
 	let cvs;
 	let ctx;
 	onMount(() => {
 		ctx = cvs.getContext("2d");
-		let size = 23*300; //23inch in 300dpi => print size for pillow
+		let size = 23 * 300; //23inch in 300dpi => print size for pillow
 		let dpr = window.devicePixelRatio;
 		cvs.width = size * dpr;
 		cvs.height = size * dpr;
@@ -62,7 +68,7 @@
 		const durl = cvs.toDataURL();
 		const a = document.createElement("a");
 		a.href = durl;
-		a.setAttribute("download", 'SketchDownload');
+		a.setAttribute("download", "SketchDownload");
 		a.click();
 	}
 </script>
@@ -81,6 +87,11 @@
 	}
 	.download-btn {
 		position: absolute;
+		right: 0;
+	}
+	.content {
+		display: flex;
+		justify-content: space-between;
 	}
 </style>
 
@@ -89,5 +100,8 @@
 </svelte:head>
 
 <button class="download-btn" on:click={download}>download</button>
-<div class="board"><canvas id="drawing" bind:this={cvs} /></div>
-
+<div class="content">
+<SketchesPanel {sketches}/>
+	<div class="board"><canvas id="drawing" bind:this={cvs} /></div>
+	<SettingsPanel settings={{ var1: true, var2: 'hello', var3: 55 }} />
+</div>
