@@ -4,7 +4,6 @@
 	export let sketches: Sketch[];
 	const dispatch = createEventDispatcher();
 	function select(index:number) {
-		console.log(index);
 		dispatch("selected",{sketch: sketches[index]});
 	}
 </script>
