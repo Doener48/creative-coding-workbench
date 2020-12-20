@@ -1,6 +1,12 @@
 <script lang="ts">
-	import type {Sketch}  from "../routes/sketch";
-	export let sketches:Sketch[];
+	import { createEventDispatcher } from "svelte";
+	import type { Sketch } from "../routes/sketch";
+	export let sketches: Sketch[];
+	const dispatch = createEventDispatcher();
+	function select(index:number) {
+		console.log(index);
+		dispatch("selected",{sketch: sketches[index]});
+	}
 </script>
 
 <style>
@@ -10,12 +16,16 @@
 	ul {
 		list-style: none;
 	}
+
+	li {
+		cursor: pointer;
+	}
 </style>
 
 <section class="panel-container">
 	<ul>
-		{#each sketches as s}
-			<li>{s.name}</li>
+		{#each sketches as s,i}
+			<li on:click="{()=>select(i)}">{s.name}</li>
 		{/each}
 	</ul>
 </section>

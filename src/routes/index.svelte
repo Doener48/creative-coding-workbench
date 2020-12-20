@@ -2,15 +2,15 @@
 	import { onMount } from "svelte";
 	import SettingsPanel from "../components/SettingsPanel.svelte";
 	import SketchesPanel from "../components/SketchesPanel.svelte";
-import { Sketch } from "./sketch";
-	let sketches = [
-		new Sketch({ name: "test", settings: { spacing: 10 }, drawFunction: "" }),
-	];
+	import type { Sketch } from "./sketch";
+	import { sketches } from "./sketches";
+
+	let currentSketch: Sketch = sketches[0];
 	let cvs;
 	let ctx;
+	let size = 23 * 300; //23inch in 300dpi => print size for pillow
 	onMount(() => {
 		ctx = cvs.getContext("2d");
-		let size = 23 * 300; //23inch in 300dpi => print size for pillow
 		let dpr = window.devicePixelRatio;
 		cvs.width = size * dpr;
 		cvs.height = size * dpr;
@@ -18,58 +18,22 @@ import { Sketch } from "./sketch";
 		ctx.lineJoin = "bevel";
 		ctx.fillStyle = "#000000";
 
-		let line;
-		let lines = [];
-		let gap = size / 12;
-		let alternate = false;
-
-		for (let y = gap / 2; y <= size; y += gap) {
-			line = [];
-			alternate = !alternate;
-			for (let x = gap / 4; x <= size; x += gap) {
-				line.push({
-					x: x + (Math.random() * 0.8 - 0.4) * gap + (alternate ? gap / 2 : 0),
-					y: y + (Math.random() * 0.8 - 0.4) * gap,
-				});
-			}
-			lines.push(line);
-		}
-
-		let dotLine;
-		alternate = true;
-
-		function drawTriangle(pointA, pointB, pointC) {
-			ctx.beginPath();
-			ctx.moveTo(pointA.x, pointA.y);
-			ctx.lineTo(pointB.x, pointB.y);
-			ctx.lineTo(pointC.x, pointC.y);
-			ctx.lineTo(pointA.x, pointA.y);
-			ctx.closePath();
-			let gray = Math.floor(Math.random() * 16).toString(16);
-			ctx.fillStyle = "#" + gray + gray + gray;
-			ctx.stroke();
-			ctx.fill();
-		}
-
-		for (let y = 0; y < lines.length - 1; y++) {
-			alternate = !alternate;
-			dotLine = [];
-			for (let i = 0; i < lines[y].length; i++) {
-				dotLine.push(alternate ? lines[y][i] : lines[y + 1][i]);
-				dotLine.push(alternate ? lines[y + 1][i] : lines[y][i]);
-			}
-			for (let i = 0; i < dotLine.length - 2; i++) {
-				drawTriangle(dotLine[i], dotLine[i + 1], dotLine[i + 2]);
-			}
-		}
+		currentSketch.drawFunction(ctx, size, size, currentSketch.settings);
 	});
 	function download() {
-		console.log("download");
 		const durl = cvs.toDataURL();
 		const a = document.createElement("a");
 		a.href = durl;
 		a.setAttribute("download", "SketchDownload");
 		a.click();
+	}
+
+	function redraw() {
+		currentSketch.drawFunction(ctx, size, size, currentSketch.settings);
+	}
+	function sketchSelected(event) {
+		currentSketch = event.detail.sketch;
+		redraw()
 	}
 </script>
 
@@ -82,16 +46,13 @@ import { Sketch } from "./sketch";
 		align-items: center;
 	}
 	canvas {
-		width: 800px;
-		height: 800px;
-	}
-	.download-btn {
-		position: absolute;
-		right: 0;
+		width: 500px;
+		height: 500px;
 	}
 	.content {
 		display: flex;
 		justify-content: space-between;
+		height: 100%;
 	}
 </style>
 
@@ -99,9 +60,8 @@ import { Sketch } from "./sketch";
 	<title>UniquePieces</title>
 </svelte:head>
 
-<button class="download-btn" on:click={download}>download</button>
 <div class="content">
-<SketchesPanel {sketches}/>
+	<SketchesPanel {sketches} on:selected={sketchSelected} />
 	<div class="board"><canvas id="drawing" bind:this={cvs} /></div>
-	<SettingsPanel settings={{ var1: true, var2: 'hello', var3: 55 }} />
+	<SettingsPanel settings={currentSketch.settings} on:redraw={redraw} on:download={download}/>
 </div>
