@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import SettingsPanel from "../components/SettingsPanel.svelte";
 	import SketchesPanel from "../components/SketchesPanel.svelte";
-	import type { Sketch } from "../sketches/sketch";
+	import type { Sketch } from "../sketches/model";
 	import { sketches } from "../sketches";
 
 	let currentSketch: Sketch = sketches[0];

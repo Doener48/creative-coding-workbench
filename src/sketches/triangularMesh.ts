@@ -1,4 +1,4 @@
-import { DrawFunc, Sketch } from "./sketch";
+import { DrawFunc, Sketch } from "./model";
 
 let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
   ctx.clearRect(0, 0, width, height);

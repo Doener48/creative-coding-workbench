@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
-	import type { Sketch } from "../sketches/sketch";
+	import type { Sketch } from "../sketches/model";
 	export let sketches: Sketch[];
 	const dispatch = createEventDispatcher();
 	function select(index:number) {

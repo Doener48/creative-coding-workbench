@@ -1,4 +1,4 @@
-import { DrawFunc, Sketch } from "./sketch";
+import { DrawFunc, Sketch } from "./model";
 
 const drawUnDeuxTrois: DrawFunc = (
   ctx: CanvasRenderingContext2D, width, height,
