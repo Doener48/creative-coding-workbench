@@ -14,6 +14,6 @@ export interface ISketch{
   drawFunction: DrawFunc
 }
 
-interface DrawFunc {
+export interface DrawFunc {
   (ctx:CanvasRenderingContext2D, width:number, height:number, settings:any): void;
 }
