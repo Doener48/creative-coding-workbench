@@ -81,7 +81,6 @@
 		padding: 0;
 		display: flex;
 		justify-content: center;
-		align-items: center;
 	}
 	canvas {
 		width: 500px;
@@ -91,6 +90,8 @@
 		display: flex;
 		justify-content: space-between;
 		height: 100%;
+
+		padding: 1rem;
 	}
 </style>
 

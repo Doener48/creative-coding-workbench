@@ -30,8 +30,6 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		padding: 1rem;
-		overflow-y: scroll;
 	}
 	.panel-item {
 		display: flex;

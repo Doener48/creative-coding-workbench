@@ -11,11 +11,9 @@
 <style>
 	.panel-container {
 		height: 100%;
-		width: 300px;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		padding: 1rem;
 	}
 	ul {
 		list-style: none;
@@ -38,11 +36,11 @@
 	}
 </style>
 
-<section class="panel-container">
+<div class="panel-container">
 	<h3>Sketches</h3>
 	<ul>
 		{#each sketches as s,i}
 			<li on:click="{()=>select(i)}">{s.name}</li>
 		{/each}
 	</ul>
-</section>
+</div>
