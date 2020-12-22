@@ -6,6 +6,7 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
   let lines = [];
   let gap = width / settings.spacing;
   let alternate = false;
+  ctx.lineWidth = settings.lineWidth;
 
   for (let y = gap / 2; y <= width; y += gap) {
     line = [];
@@ -50,6 +51,6 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
 
 export default new Sketch({
   name: "TriangularMesh",
-  settings: { spacing: 20 },
+  settings: { spacing: 20, lineWidth: 0 },
   drawFunction: drawTrangularMesh
 });

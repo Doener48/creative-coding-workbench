@@ -4,6 +4,7 @@
 	export let settings;
 	export let width;
 	export let height;
+	export let title;
 	function redraw() {
 		dispatch("redraw");
 	}
@@ -36,11 +37,15 @@
 	button{
 		margin-left: 1rem;
 	}
+	h3{
+		text-decoration: underline;
+	}
 </style>
 
 <div class="panel-container">
+	<h3>Canvas</h3>
 	<div class="panel-item">
-		<label for="canvas-width">canvas width:</label>
+		<label for="canvas-width">width inch:</label>
 		<input
 			type="number"
 			id="canvas-width"
@@ -48,7 +53,7 @@
 			bind:value={width} />
 	</div>
 	<div class="panel-item">
-		<label for="canvas-height">canvas height:</label>
+		<label for="canvas-height">height inch:</label>
 		<input
 			type="number"
 			id="canvas-height"
@@ -60,6 +65,7 @@
 		<button on:click={download}>download</button>
 	</div>
 
+	<h3>{title}</h3>
 	{#each Object.keys(settings) as key}
 		<div class="panel-item">
 			<label for={key}>{key}:</label>

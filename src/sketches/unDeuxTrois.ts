@@ -3,7 +3,10 @@ import { DrawFunc, Sketch } from "./model";
 const drawUnDeuxTrois: DrawFunc = (
   ctx: CanvasRenderingContext2D, width, height,
   settings: {
-    amount: number, lengthScale: number, lineWidth: number
+    amount: number,
+    lengthScale: number,
+    lineWidth: number,
+    randomColors: boolean
   }) => {
   ctx.clearRect(0, 0, width, height);
   ctx.lineWidth = settings.lineWidth;
@@ -12,9 +15,13 @@ const drawUnDeuxTrois: DrawFunc = (
   const step = width / settings.amount;
   function draw(x, y, w, h, pos) {
     ctx.save();
-    ctx.translate(x + width / 8, y + height / 8);
+    ctx.translate(x + w / 2, y + h / 2);
     ctx.rotate(Math.random() * 3);
-    ctx.translate(-width / 8, -height / 8);
+    ctx.translate(-w / 2, -h / 2);
+    const color = Math.floor(Math.random() * 361);
+    const lightness = settings.randomColors ? 75 : 0;
+    const hsl = `hsl(${color},100%,${lightness}%)`;
+    ctx.strokeStyle = hsl;
     for (let i = 0; i < pos.length; i++) {
       ctx.beginPath();
       ctx.moveTo(pos[i] * w, 0);
@@ -37,4 +44,12 @@ const drawUnDeuxTrois: DrawFunc = (
   }
 }
 
-export default new Sketch({ name: "UnDeuxTrois", settings: { amount: 20, lengthScale: 1, lineWidth: 5 }, drawFunction: drawUnDeuxTrois });
+export default new Sketch(
+  {
+    name: "UnDeuxTrois",
+    settings: {
+      amount: 20, lengthScale: 1, lineWidth: 5,
+      randomColors: true
+    },
+    drawFunction: drawUnDeuxTrois
+  });

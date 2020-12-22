@@ -77,6 +77,7 @@
 		settings={currentSketch.settings}
 		width={width}
 		height={height}
+		title={currentSketch.name}
 		on:redraw={redraw}
 		on:download={download} 
 		on:resize={resize}
