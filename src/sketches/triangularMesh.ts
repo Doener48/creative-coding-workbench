@@ -32,7 +32,9 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
     ctx.closePath();
     let gray = Math.floor(Math.random() * 16).toString(16);
     ctx.fillStyle = "#" + gray + gray + gray;
-    ctx.stroke();
+    if(settings.lineWidth >0){
+      ctx.stroke();
+    }
     ctx.fill();
   }
 
