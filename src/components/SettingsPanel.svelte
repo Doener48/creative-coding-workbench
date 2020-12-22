@@ -19,7 +19,7 @@
 		dispatch("cancelAnimation");
 	}
 	function startAnimation() {
-		dispatch("startAnimation");
+		dispatch("startAnimation",{fps:fps});
 	}
 </script>
 
@@ -31,6 +31,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 1rem;
+		overflow-y: scroll;
 	}
 	.panel-item {
 		display: flex;

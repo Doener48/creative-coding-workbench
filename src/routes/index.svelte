@@ -15,6 +15,8 @@
 	let height = 2;
 	let fps = 30;
 	let animationId;
+	let fpsInterval, now, then, elapsed;
+
 	onMount(() => {
 		ctx = cvs.getContext("2d");
 		dpr = window.devicePixelRatio;
@@ -54,8 +56,19 @@
 	}
 
 	function animate(timestamp) {
-		redraw();
 		animationId = window.requestAnimationFrame(animate);
+		now = Date.now();
+		elapsed = now - then;
+		if (elapsed > fpsInterval) {
+			then = now - (elapsed % fpsInterval);
+			redraw();
+		}
+	}
+	function startAnimation(event) {
+		fps = event.detail.fps;
+		fpsInterval = 1000 / fps;
+		then = Date.now();
+		window.requestAnimationFrame(animate);
 	}
 	function stopAnimation() {
 		window.cancelAnimationFrame(animationId);
@@ -97,7 +110,6 @@
 		on:redraw={redraw}
 		on:download={download}
 		on:resize={resize}
-		on:cancelAnimation={stopAnimation} 
-		on:startAnimation={animate}
-		/>
+		on:cancelAnimation={stopAnimation}
+		on:startAnimation={startAnimation} />
 </div>
