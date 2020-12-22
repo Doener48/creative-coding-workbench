@@ -56,8 +56,8 @@
 		align-items: center;
 	}
 	canvas {
-		width: 600px;
-		height: 600px;
+		width: 500px;
+		height: 500px;
 	}
 	.content {
 		display: flex;

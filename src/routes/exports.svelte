@@ -5,7 +5,7 @@
 </style>
 
 <svelte:head>
-	<title>page2</title>
+	<title>exports</title>
 </svelte:head>
 
-<h1>page2!</h1>
+<h1>exported pieces</h1>

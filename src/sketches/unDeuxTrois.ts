@@ -18,7 +18,7 @@ const drawUnDeuxTrois: DrawFunc = (
     ctx.translate(x + w / 2, y + h / 2);
     ctx.rotate(Math.random() * 3);
     ctx.translate(-w / 2, -h / 2);
-    const color = Math.floor(Math.random() * 361);
+    const color = Math.floor(Math.random() * 360);
     const lightness = settings.randomColors ? 75 : 0;
     const hsl = `hsl(${color},100%,${lightness}%)`;
     ctx.strokeStyle = hsl;
