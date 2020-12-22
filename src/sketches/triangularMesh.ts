@@ -8,6 +8,8 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
   let alternate = false;
   ctx.lineWidth = settings.lineWidth;
 
+  let seededColor = settings.randomColor ? Math.floor(Math.random() * 360) : settings.seededColor;
+
   for (let y = gap / 2; y <= width; y += gap) {
     line = [];
     alternate = !alternate;
@@ -24,15 +26,17 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
   alternate = true;
 
   function drawTriangle(pointA, pointB, pointC) {
+    const shade = Math.floor(Math.random() * 80)+10;
+    let currentColor = `hsl(${seededColor},${settings.saturation}%,${shade}%)`;
+
     ctx.beginPath();
     ctx.moveTo(pointA.x, pointA.y);
     ctx.lineTo(pointB.x, pointB.y);
     ctx.lineTo(pointC.x, pointC.y);
     ctx.lineTo(pointA.x, pointA.y);
     ctx.closePath();
-    let gray = Math.floor(Math.random() * 16).toString(16);
-    ctx.fillStyle = "#" + gray + gray + gray;
-    if(settings.lineWidth >0){
+    ctx.fillStyle = currentColor;
+    if (settings.lineWidth > 0) {
       ctx.stroke();
     }
     ctx.fill();
@@ -53,6 +57,6 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
 
 export default new Sketch({
   name: "TriangularMesh",
-  settings: { spacing: 20, lineWidth: 0 },
+  settings: { spacing: 20, lineWidth: 0, randomColor: true, seededColor: 35, saturation: 90 },
   drawFunction: drawTrangularMesh
 });
