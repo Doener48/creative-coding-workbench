@@ -5,6 +5,7 @@
 	export let width;
 	export let height;
 	export let title;
+	export let fps;
 	function redraw() {
 		dispatch("redraw");
 	}
@@ -13,6 +14,12 @@
 	}
 	function download() {
 		dispatch("download");
+	}
+	function cancelAnimation() {
+		dispatch("cancelAnimation");
+	}
+	function startAnimation() {
+		dispatch("startAnimation");
 	}
 </script>
 
@@ -63,6 +70,20 @@
 	<div class="btn-group panel-item">
 		<button on:click={resize}>resize</button>
 		<button on:click={download}>download</button>
+	</div>
+
+	<h3>Animation</h3>
+	<div class="panel-item">
+		<label for="animation-fps">fps:</label>
+		<input
+			type="number"
+			id="animation-fps"
+			name="animation-fps"
+			bind:value={fps} />
+	</div>
+	<div class="btn-group panel-item">
+		<button on:click={startAnimation}>startAnimation</button>
+		<button on:click={cancelAnimation}>stopAnimation</button>
 	</div>
 
 	<h3>{title}</h3>

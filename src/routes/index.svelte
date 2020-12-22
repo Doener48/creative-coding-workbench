@@ -13,6 +13,8 @@
 	let dpi = 300;
 	let width = 2;
 	let height = 2;
+	let fps = 30;
+	let animationId;
 	onMount(() => {
 		ctx = cvs.getContext("2d");
 		dpr = window.devicePixelRatio;
@@ -26,7 +28,12 @@
 		a.click();
 	}
 	function redraw() {
-		currentSketch.drawFunction(ctx, width*dpi*dpr, height*dpi*dpr, currentSketch.settings);
+		currentSketch.drawFunction(
+			ctx,
+			width * dpi * dpr,
+			height * dpi * dpr,
+			currentSketch.settings
+		);
 	}
 	function sketchSelected(event) {
 		currentSketch = event.detail.sketch;
@@ -44,6 +51,14 @@
 		width = event.detail.width;
 		height = event.detail.height;
 		init();
+	}
+
+	function animate(timestamp) {
+		redraw();
+		animationId = window.requestAnimationFrame(animate);
+	}
+	function stopAnimation() {
+		window.cancelAnimationFrame(animationId);
 	}
 </script>
 
@@ -75,11 +90,14 @@
 	<div class="board"><canvas id="drawing" bind:this={cvs} /></div>
 	<SettingsPanel
 		settings={currentSketch.settings}
-		width={width}
-		height={height}
+		{width}
+		{height}
 		title={currentSketch.name}
+		{fps}
 		on:redraw={redraw}
-		on:download={download} 
+		on:download={download}
 		on:resize={resize}
+		on:cancelAnimation={stopAnimation} 
+		on:startAnimation={animate}
 		/>
 </div>
