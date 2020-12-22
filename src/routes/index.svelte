@@ -81,6 +81,7 @@
 		padding: 0;
 		display: flex;
 		justify-content: center;
+		padding: 1rem;
 	}
 	canvas {
 		width: 500px;
@@ -90,13 +91,11 @@
 		display: flex;
 		justify-content: space-between;
 		height: 100%;
-
-		padding: 1rem;
 	}
 </style>
 
 <svelte:head>
-	<title>UniquePieces</title>
+	<title>Generative-Pieces</title>
 </svelte:head>
 
 <div class="content">

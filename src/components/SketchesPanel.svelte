@@ -13,7 +13,7 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		padding: 1rem;
 	}
 	ul {
 		list-style: none;
@@ -32,8 +32,7 @@
 
 	h3{
 		text-decoration: underline;
-		margin: 0;
-	}
+			}
 </style>
 
 <div class="panel-container">
