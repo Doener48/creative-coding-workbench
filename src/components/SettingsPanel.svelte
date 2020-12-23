@@ -6,6 +6,7 @@
 	export let height;
 	export let title;
 	export let fps;
+	let viewCode = false;
 	function redraw() {
 		dispatch("redraw");
 	}
@@ -22,7 +23,8 @@
 		dispatch("startAnimation",{fps:fps});
 	}
 	function toggleCode() {
-		dispatch("toggleCode");
+		viewCode = !viewCode;
+		dispatch("toggleCode", {viewCode:viewCode});
 	}
 </script>
 

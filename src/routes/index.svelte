@@ -2,13 +2,20 @@
 	import { onMount } from "svelte";
 	import SettingsPanel from "../components/SettingsPanel.svelte";
 	import SketchesPanel from "../components/SketchesPanel.svelte";
-	import type { Sketch } from "../sketches/model";
+	import type { DrawFunc, Sketch } from "../sketches/model";
 	import { sketches } from "../sketches";
-import type { type } from "os";
+	import {
+		EditorState,
+		EditorView,
+		basicSetup,
+	} from "@codemirror/next/basic-setup";
+	import { javascript } from "@codemirror/next/lang-javascript";
+	import { oneDark } from "@codemirror/next/theme-one-dark";
 
 	let currentSketch: Sketch = sketches[0];
 	let cvs;
 	let code;
+	let codeView: EditorView;
 	let ctx;
 	let dpr;
 	//x inch in 300dpi => print size
@@ -42,6 +49,12 @@ import type { type } from "os";
 	function sketchSelected(event) {
 		currentSketch = event.detail.sketch;
 		redraw();
+		codeView.setState(
+			EditorState.create({
+				doc: currentSketch.drawFunction.toString(),
+				extensions: [basicSetup, javascript(), oneDark],
+			})
+		);
 	}
 	function init() {
 		cvs.width = width * dpi * dpr;
@@ -50,6 +63,13 @@ import type { type } from "os";
 		ctx.lineJoin = "bevel";
 		ctx.fillStyle = "#000000";
 		redraw();
+		codeView = new EditorView({
+			state: EditorState.create({
+				doc: currentSketch.drawFunction.toString(),
+				extensions: [basicSetup, javascript(), oneDark],
+			}),
+			parent: code,
+		});
 	}
 	function resize(event) {
 		width = event.detail.width;
@@ -57,7 +77,7 @@ import type { type } from "os";
 		init();
 	}
 
-	function animate(timestamp) {
+	function animate() {
 		animationId = window.requestAnimationFrame(animate);
 		now = Date.now();
 		elapsed = now - then;
@@ -75,9 +95,16 @@ import type { type } from "os";
 	function stopAnimation() {
 		window.cancelAnimationFrame(animationId);
 	}
-	function toggleCode() {
-		cvs.classList.toggle('hide');
-		code.classList.toggle('hide');
+	function toggleCode(event) {
+		cvs.classList.toggle("hide");
+		code.classList.toggle("hide");
+		if(!event.detail.viewCode){
+			const newfunc = codeView.state.doc.toString();
+			const params = newfunc.substring(newfunc.indexOf('(')+1,newfunc.indexOf(')')).split(',');
+			const body = newfunc.substring(newfunc.indexOf('{')+1,newfunc.lastIndexOf('}'));
+			currentSketch.drawFunction = new Function(...params,body) as DrawFunc;
+			redraw();
+		}
 	}
 </script>
 
@@ -93,13 +120,13 @@ import type { type } from "os";
 	canvas {
 		width: 100%;
 	}
-	.hide{
+	.hide {
 		display: none;
 	}
-	.code-mirror{
-		width: 500px;
-		height: 500px;
-		background-color: cornsilk;
+	.code-mirror {
+		width: 100vh;
+		height: 100vh;
+		overflow: auto;
 	}
 	.content {
 		display: flex;
@@ -117,7 +144,7 @@ import type { type } from "os";
 	<SketchesPanel {sketches} on:selected={sketchSelected} />
 	<div class="board">
 		<canvas id="drawing" bind:this={cvs} />
-		<textarea class="code-mirror hide" bind:this={code} value={currentSketch.drawFunction.toString()}></textarea>
+		<div class="code-mirror hide" bind:this={code} />
 	</div>
 	<SettingsPanel
 		settings={currentSketch.settings}

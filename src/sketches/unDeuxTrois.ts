@@ -1,13 +1,13 @@
 import { DrawFunc, Sketch } from "./model";
 
-const drawUnDeuxTrois: DrawFunc = (
+const drawUnDeuxTrois: DrawFunc = function (
   ctx: CanvasRenderingContext2D, width, height,
   settings: {
     amount: number,
     lengthScale: number,
     lineWidth: number,
     randomColors: boolean
-  }) => {
+  }) {
   ctx.clearRect(0, 0, width, height);
   ctx.lineWidth = settings.lineWidth;
   ctx.lineCap = 'round';

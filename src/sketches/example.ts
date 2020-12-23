@@ -1,15 +1,21 @@
 import { DrawFunc, Sketch } from "./model";
 
 interface ISettings {
-  randomColor: boolean;
+  lineWidth: number;
 }
 
 let exampleFunction: DrawFunc = (ctx, width, height, settings: ISettings) => {
   ctx.clearRect(0, 0, width, height);
+  ctx.moveTo(0, 0);
+  ctx.lineWidth = settings.lineWidth;
+  ctx.lineTo(width, height);
+  ctx.moveTo(width, 0);
+  ctx.lineTo(0, height);
+  ctx.stroke();
 }
 
 export default new Sketch({
   name: "Example",
-  settings: { randomColor: true } as ISettings,
+  settings: { lineWidth: 5 } as ISettings,
   drawFunction: exampleFunction
 });
