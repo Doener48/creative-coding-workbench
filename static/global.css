@@ -27,6 +27,7 @@ a {
 	flex-direction: column;
 	padding: 1rem;
 	background-color: #666;
+	overflow-y: auto;
 }
 
 @media (min-width: 400px) {

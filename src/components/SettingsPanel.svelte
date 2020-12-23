@@ -30,7 +30,6 @@
 
 <style>
 	.panel-container {
-		overflow-y: auto;
 		justify-content: space-between;
 		border-radius: 10px 0 0 10px;
 	}
