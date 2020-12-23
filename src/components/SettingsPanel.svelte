@@ -21,6 +21,9 @@
 	function startAnimation() {
 		dispatch("startAnimation",{fps:fps});
 	}
+	function toggleCode() {
+		dispatch("toggleCode");
+	}
 </script>
 
 <style>
@@ -80,6 +83,7 @@
 		<button on:click={resize}>resize</button>
 		<button on:click={download}>download</button>
 	</div>
+	<button on:click={toggleCode}>toggle code/canvas</button>
 
 	<h3>Animation</h3>
 	<div class="panel-item">

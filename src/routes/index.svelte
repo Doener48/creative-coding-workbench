@@ -4,9 +4,11 @@
 	import SketchesPanel from "../components/SketchesPanel.svelte";
 	import type { Sketch } from "../sketches/model";
 	import { sketches } from "../sketches";
+import type { type } from "os";
 
 	let currentSketch: Sketch = sketches[0];
 	let cvs;
+	let code;
 	let ctx;
 	let dpr;
 	//x inch in 300dpi => print size
@@ -73,6 +75,10 @@
 	function stopAnimation() {
 		window.cancelAnimationFrame(animationId);
 	}
+	function toggleCode() {
+		cvs.classList.toggle('hide');
+		code.classList.toggle('hide');
+	}
 </script>
 
 <style>
@@ -86,6 +92,14 @@
 	}
 	canvas {
 		width: 100%;
+	}
+	.hide{
+		display: none;
+	}
+	.code-mirror{
+		width: 500px;
+		height: 500px;
+		background-color: cornsilk;
 	}
 	.content {
 		display: flex;
@@ -101,7 +115,10 @@
 
 <div class="content">
 	<SketchesPanel {sketches} on:selected={sketchSelected} />
-	<div class="board"><canvas id="drawing" bind:this={cvs} /></div>
+	<div class="board">
+		<canvas id="drawing" bind:this={cvs} />
+		<textarea class="code-mirror hide" bind:this={code} value={currentSketch.drawFunction.toString()}></textarea>
+	</div>
 	<SettingsPanel
 		settings={currentSketch.settings}
 		{width}
@@ -112,5 +129,6 @@
 		on:download={download}
 		on:resize={resize}
 		on:cancelAnimation={stopAnimation}
-		on:startAnimation={startAnimation} />
+		on:startAnimation={startAnimation}
+		on:toggleCode={toggleCode} />
 </div>
