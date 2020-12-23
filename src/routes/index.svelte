@@ -81,16 +81,17 @@
 		padding: 0;
 		display: flex;
 		justify-content: center;
+		align-items: center;
 		padding: 1rem;
 	}
 	canvas {
-		width: 500px;
-		height: 500px;
+		width: 100%;
 	}
 	.content {
 		display: flex;
 		justify-content: space-between;
-		height: 100%;
+		align-items: center;
+		height: 100vh;
 	}
 </style>
 

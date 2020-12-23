@@ -25,12 +25,9 @@
 
 <style>
 	.panel-container {
-		height: 100%;
-		width: 300px;
-		display: flex;
-		flex-direction: column;
+		overflow-y: auto;
 		justify-content: space-between;
-		padding: 1rem;
+		border-radius: 10px 0 0 10px;
 	}
 	.panel-item {
 		display: flex;
@@ -50,6 +47,18 @@
 </style>
 
 <div class="panel-container">
+	<h3>{title}</h3>
+	{#each Object.keys(settings) as key}
+		<div class="panel-item">
+			<label for={key}>{key}:</label>
+			{#if typeof settings[key] === 'boolean'}
+				<input type="checkbox" bind:checked={settings[key]} id={key} />
+			{:else if typeof settings[key] === 'number'}
+				<input type="number" bind:value={settings[key]} id={key} />
+			{:else}<input type="text" bind:value={settings[key]} id={key} />{/if}
+		</div>
+	{/each}
+	<div class="btn-group panel-item"><button on:click={redraw}>apply</button></div>
 	<h3>Canvas</h3>
 	<div class="panel-item">
 		<label for="canvas-width">width inch:</label>
@@ -85,17 +94,4 @@
 		<button on:click={startAnimation}>startAnimation</button>
 		<button on:click={cancelAnimation}>stopAnimation</button>
 	</div>
-
-	<h3>{title}</h3>
-	{#each Object.keys(settings) as key}
-		<div class="panel-item">
-			<label for={key}>{key}:</label>
-			{#if typeof settings[key] === 'boolean'}
-				<input type="checkbox" bind:checked={settings[key]} id={key} />
-			{:else if typeof settings[key] === 'number'}
-				<input type="number" bind:value={settings[key]} id={key} />
-			{:else}<input type="text" bind:value={settings[key]} id={key} />{/if}
-		</div>
-	{/each}
-	<div class="btn-group panel-item"><button on:click={redraw}>apply</button></div>
 </div>
