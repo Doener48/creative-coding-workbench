@@ -57,6 +57,6 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
 
 export default new Sketch({
   name: "TriangularMesh",
-  settings: { spacing: 20, lineWidth: 0, randomColor: true, seededColor: 35, saturation: 90 },
+  settings: { spacing: 5, lineWidth: 0, randomColor: true, seededColor: 35, saturation: 90 },
   drawFunction: drawTrangularMesh
 });

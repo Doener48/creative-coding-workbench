@@ -5,8 +5,8 @@ import mondrian from "./mondrian";
 import example from "./example";
 
 export const sketches: Sketch[] = [
-  example,
-  mondrian,
   triangularMesh,
-  unDeuxTrois
+  mondrian,
+  unDeuxTrois,
+  example
 ];
