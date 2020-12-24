@@ -118,14 +118,15 @@
 		padding: 1rem;
 	}
 	canvas {
-		width: 100%;
+		width: 600px;
+		height: 600px;
 	}
 	.hide {
 		display: none;
 	}
 	.code-mirror {
-		width: 100vh;
-		height: 100vh;
+		width: 600px;
+		height: 600px;
 		overflow: auto;
 	}
 	.content {
