@@ -26,7 +26,6 @@
 	let codeView: EditorView;
 	let ctx;
 	let dpr;
-	//x inch in 300dpi => print size
 	const dpi = 300;
 	let width = 2;
 	let height = 2;
@@ -39,11 +38,40 @@
 		dpr = window.devicePixelRatio;
 		init();
 	});
-	function download() {
+	function exportImage() {
 		const downloadUrl = cvs.toDataURL();
 		const a = document.createElement("a");
 		a.href = downloadUrl;
-		a.setAttribute("download", "SketchDownload");
+		const date = new Date().toISOString();
+		a.setAttribute("download", `Sketch_${date}.png`);
+		a.click();
+	}
+	function importSettings(event) {
+		let reader = new FileReader();
+
+		reader.readAsText(event.detail.file);
+
+		reader.onload = function () {
+			if (typeof reader.result === 'string') {
+				const loadedSettings = JSON.parse(reader.result)
+				if (loadedSettings.name === currentSketch.name) {
+					currentSketch.settings = loadedSettings.settings;
+					redraw();
+				}
+				else{
+					alert('settings don\'t match sketch');
+				}
+			}
+		};
+	}
+	function exportSettings() {
+		var dataStr =
+			"data:text/json;charset=utf-8," +
+			encodeURIComponent(currentSketch.getExportJSON());
+		var a = document.createElement("a");
+		a.href = dataStr;
+		const date = new Date().toISOString();
+		a.setAttribute("download", `Settings_${date}.json`);
 		a.click();
 	}
 	function redraw() {
@@ -170,7 +198,9 @@
 		{fps}
 		showCodeBtn={isDev}
 		on:redraw={redraw}
-		on:download={download}
+		on:download={exportImage}
+		on:export={exportSettings}
+		on:import={importSettings}
 		on:resize={resize}
 		on:cancelAnimation={stopAnimation}
 		on:startAnimation={startAnimation}

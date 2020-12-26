@@ -8,6 +8,7 @@
 	export let fps;
 	export let showCodeBtn;
 	let viewCode = false;
+	let importedSetting;
 	function redraw() {
 		dispatch("redraw");
 	}
@@ -16,6 +17,12 @@
 	}
 	function download() {
 		dispatch("download");
+	}
+	function exportSettings() {
+		dispatch("export");
+	}
+	function importSettings() {
+		dispatch("import", { file: importedSetting.files[0] });
 	}
 	function cancelAnimation() {
 		dispatch("cancelAnimation");
@@ -39,15 +46,34 @@
 		justify-content: space-between;
 		margin: 0.5rem 0;
 	}
-	.btn-group {
-		display: flex;
-		justify-content: flex-end;
-	}
 	button {
-		margin-left: 1rem;
+		margin-bottom: 0.5rem;
+		background-color: #fff;
+		color: #333;
+		border-color: #fff;
+		border-style: solid;
+		border-radius: 5px;
+		padding: 0.5rem;
+		text-transform: uppercase;
 	}
 	h3 {
 		text-decoration: underline;
+	}
+	input[type="number"] {
+		background: #666;
+		color: #fff;
+		border-color: #fff;
+		border-style: solid;
+		border-radius: 5px;
+		padding-left: 0.5rem;
+	}
+	input[type="text"] {
+		background: #666;
+		color: #fff;
+		border-color: #fff;
+		border-style: solid;
+		border-radius: 5px;
+		padding-left: 0.5rem;
 	}
 </style>
 
@@ -63,9 +89,8 @@
 			{:else}<input type="text" bind:value={settings[key]} id={key} />{/if}
 		</div>
 	{/each}
-	<div class="btn-group panel-item">
-		<button on:click={redraw}>apply</button>
-	</div>
+	<button on:click={redraw}>apply</button>
+
 	<h3>Canvas</h3>
 	<div class="panel-item">
 		<label for="canvas-width">width inch:</label>
@@ -83,10 +108,9 @@
 			name="canvas-height"
 			bind:value={height} />
 	</div>
-	<div class="btn-group panel-item">
-		<button on:click={resize}>resize</button>
-		<button on:click={download}>download</button>
-	</div>
+	<button on:click={resize}>resize</button>
+	<button on:click={download}>download</button>
+
 	{#if showCodeBtn}
 		<button on:click={toggleCode}>toggle code/canvas</button>
 	{/if}
@@ -100,8 +124,18 @@
 			name="animation-fps"
 			bind:value={fps} />
 	</div>
-	<div class="btn-group panel-item">
-		<button on:click={startAnimation}>startAnimation</button>
-		<button on:click={cancelAnimation}>stopAnimation</button>
+	<button on:click={startAnimation}>start</button>
+	<button on:click={cancelAnimation}>stop</button>
+
+	<h3>Settings</h3>
+	<div class="panel-item">
+		<input
+			type="file"
+			name="import-file"
+			id="import-file"
+			accept="application/json"
+			bind:this={importedSetting} />
 	</div>
+	<button on:click={importSettings}>import</button>
+	<button on:click={exportSettings}>export</button>
 </div>

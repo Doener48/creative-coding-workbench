@@ -2,17 +2,13 @@ export class Sketch implements ISketch {
   name: string;
   settings: any;
   drawFunction: DrawFunc;
-  private functionParams: string[] = [];
-  private functionBody: string;
 
   constructor(sketch: Partial<Sketch>) {
     Object.assign(this, sketch);
   }
 
-  setDrawFunction(newFunctionString:string){
-    this.functionParams = newFunctionString.substring(newFunctionString.indexOf('(') + 1, newFunctionString.indexOf(')')).split(',');
-    this.functionBody = newFunctionString.substring(newFunctionString.indexOf('{') + 1, newFunctionString.lastIndexOf('}'));
-    this.drawFunction = new Function(...this.functionParams, this.functionBody) as DrawFunc;
+  getExportJSON(){
+    return JSON.stringify({... this},null, '  ');
   }
 }
 

@@ -58,6 +58,6 @@ let drawTriangularMesh: DrawFunc = (ctx, width, height, settings) => {
 const sketch = new Sketch({
   name: "TriangularMesh",
   settings: { spacing: 5, lineWidth: 0, randomColor: true, seededColor: 35, saturation: 90 },
+  drawFunction: drawTriangularMesh
 });
-sketch.setDrawFunction(drawTriangularMesh.toString());
 export default sketch;
