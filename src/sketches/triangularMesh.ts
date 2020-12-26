@@ -1,6 +1,6 @@
 import { DrawFunc, Sketch } from "./model";
 
-let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
+let drawTriangularMesh: DrawFunc = (ctx, width, height, settings) => {
   ctx.clearRect(0, 0, width, height);
   let line;
   let lines = [];
@@ -55,8 +55,9 @@ let drawTrangularMesh: DrawFunc = (ctx, width, height, settings) => {
   }
 }
 
-export default new Sketch({
+const sketch = new Sketch({
   name: "TriangularMesh",
   settings: { spacing: 5, lineWidth: 0, randomColor: true, seededColor: 35, saturation: 90 },
-  drawFunction: drawTrangularMesh
 });
+sketch.setDrawFunction(drawTriangularMesh.toString());
+export default sketch;

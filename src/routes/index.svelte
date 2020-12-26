@@ -1,3 +1,10 @@
+<script context="module">
+	export async function preload(page, session) {
+		const { dev } = session;
+		return { isDev: dev };
+	}
+</script>
+
 <script lang="ts">
 	import { onMount } from "svelte";
 	import SettingsPanel from "../components/SettingsPanel.svelte";
@@ -12,6 +19,7 @@
 	import { javascript } from "@codemirror/next/lang-javascript";
 	import { oneDark } from "@codemirror/next/theme-one-dark";
 
+	export let isDev: Boolean;
 	let currentSketch: Sketch = sketches[0];
 	let cvs;
 	let code;
@@ -19,7 +27,7 @@
 	let ctx;
 	let dpr;
 	//x inch in 300dpi => print size
-	let dpi = 300;
+	const dpi = 300;
 	let width = 2;
 	let height = 2;
 	let fps = 30;
@@ -32,9 +40,9 @@
 		init();
 	});
 	function download() {
-		const durl = cvs.toDataURL();
+		const downloadUrl = cvs.toDataURL();
 		const a = document.createElement("a");
-		a.href = durl;
+		a.href = downloadUrl;
 		a.setAttribute("download", "SketchDownload");
 		a.click();
 	}
@@ -98,11 +106,16 @@
 	function toggleCode(event) {
 		cvs.classList.toggle("hide");
 		code.classList.toggle("hide");
-		if(!event.detail.viewCode){
+		if (!event.detail.viewCode) {
 			const newfunc = codeView.state.doc.toString();
-			const params = newfunc.substring(newfunc.indexOf('(')+1,newfunc.indexOf(')')).split(',');
-			const body = newfunc.substring(newfunc.indexOf('{')+1,newfunc.lastIndexOf('}'));
-			currentSketch.drawFunction = new Function(...params,body) as DrawFunc;
+			const params = newfunc
+				.substring(newfunc.indexOf("(") + 1, newfunc.indexOf(")"))
+				.split(",");
+			const body = newfunc.substring(
+				newfunc.indexOf("{") + 1,
+				newfunc.lastIndexOf("}")
+			);
+			currentSketch.drawFunction = new Function(...params, body) as DrawFunc;
 			redraw();
 		}
 	}
@@ -145,7 +158,9 @@
 	<SketchesPanel {sketches} on:selected={sketchSelected} />
 	<div class="board">
 		<canvas id="drawing" bind:this={cvs} />
-		<div class="code-mirror hide" bind:this={code} />
+		{#if isDev}
+			<div class="code-mirror hide" bind:this={code} />
+		{/if}
 	</div>
 	<SettingsPanel
 		settings={currentSketch.settings}
@@ -153,6 +168,7 @@
 		{height}
 		title={currentSketch.name}
 		{fps}
+		showCodeBtn={isDev}
 		on:redraw={redraw}
 		on:download={download}
 		on:resize={resize}

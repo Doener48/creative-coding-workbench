@@ -6,6 +6,7 @@
 	export let height;
 	export let title;
 	export let fps;
+	export let showCodeBtn;
 	let viewCode = false;
 	function redraw() {
 		dispatch("redraw");
@@ -20,11 +21,11 @@
 		dispatch("cancelAnimation");
 	}
 	function startAnimation() {
-		dispatch("startAnimation",{fps:fps});
+		dispatch("startAnimation", { fps: fps });
 	}
 	function toggleCode() {
 		viewCode = !viewCode;
-		dispatch("toggleCode", {viewCode:viewCode});
+		dispatch("toggleCode", { viewCode: viewCode });
 	}
 </script>
 
@@ -42,10 +43,10 @@
 		display: flex;
 		justify-content: flex-end;
 	}
-	button{
+	button {
 		margin-left: 1rem;
 	}
-	h3{
+	h3 {
 		text-decoration: underline;
 	}
 </style>
@@ -62,7 +63,9 @@
 			{:else}<input type="text" bind:value={settings[key]} id={key} />{/if}
 		</div>
 	{/each}
-	<div class="btn-group panel-item"><button on:click={redraw}>apply</button></div>
+	<div class="btn-group panel-item">
+		<button on:click={redraw}>apply</button>
+	</div>
 	<h3>Canvas</h3>
 	<div class="panel-item">
 		<label for="canvas-width">width inch:</label>
@@ -84,7 +87,9 @@
 		<button on:click={resize}>resize</button>
 		<button on:click={download}>download</button>
 	</div>
-	<button on:click={toggleCode}>toggle code/canvas</button>
+	{#if showCodeBtn}
+		<button on:click={toggleCode}>toggle code/canvas</button>
+	{/if}
 
 	<h3>Animation</h3>
 	<div class="panel-item">
