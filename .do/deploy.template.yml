@@ -1,0 +1,7 @@
+spec:
+ name: creative-coding-workbench
+ services:
+ - name: web
+   git:
+     branch: master
+     repo_clone_url: https://github.com/Doener48/creative-coding-workbench
