@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "author": {
     "name": "Dennis Wueppelmann",
-    "url": "https://kebab-cases.com/"
+    "url": "https://workbench.generativepieces.com/"
   },
+  "license": "MIT",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",

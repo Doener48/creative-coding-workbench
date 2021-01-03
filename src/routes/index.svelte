@@ -115,7 +115,7 @@
 
 	function animate() {
 		animationId = window.requestAnimationFrame(animate);
-		now = Date.now();
+		now = Date.now(); 
 		elapsed = now - then;
 		if (elapsed > fpsInterval) {
 			then = now - (elapsed % fpsInterval);
