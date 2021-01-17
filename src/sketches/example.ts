@@ -6,6 +6,7 @@ interface ISettings {
 
 let exampleFunction: DrawFunc = (ctx, width, height, settings: ISettings) => {
   ctx.clearRect(0, 0, width, height);
+  ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineWidth = settings.lineWidth;
   ctx.lineTo(width, height);
